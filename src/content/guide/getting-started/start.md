@@ -8,6 +8,8 @@ order: 2
 
 # Getting Started
 
+{{#if embedded}}
+
 ## What's in the Box?
 
 {{#if photon}}
@@ -124,7 +126,20 @@ For more technical details on what comes on your device, go {{#if core}}[here](/
 - This uses a deep sleep mode for the Electron, and will still use 0.13mA
 {{/if}}
 
+{{/if}}{{! embedded }}
+
+{{#if raspberry-pi}}
+
+## Getting the hardware
+
+Start with a Raspberry Pi 2 or Raspberry Pi 3 with the latest version of the Rasbpian operating system. [Follow these instructions to install a new operating system to your Raspberry Pi.](https://www.raspberrypi.org/documentation/installation/installing-images/README.md)
+ 
+You can follow the setup steps either by connecting a keyboard and monitor to your Raspberry Pi or by connecting remotely through SSH.
+
+{{/if}}{{! raspberry-pi }}
+
 ## Prerequisites for Setup
+
 {{#if electron}}
 * **Software**
   * We highly recommend using our [online web setup](https://setup.particle.io) for the Electron.
@@ -162,7 +177,7 @@ For more technical details on what comes on your device, go {{#if core}}[here](/
 - You can save even more data by optimizing your code behavior
 - See the full [Electron Data Guide](/guide/getting-started/data/)
 
-Go to the next section to learn to [connect over USB](/guide/getting-started/connect/electron/).    
+Go to the next section to learn to [connect over USB](/guide/getting-started/connect/electron/).
 {{/if}}
 
 {{#if photon}}
