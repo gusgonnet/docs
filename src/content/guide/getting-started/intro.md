@@ -52,7 +52,7 @@ Anxious to connect right away?
 {{#if raspberry-pi}}
 The Raspberry Pi is an amazing credit-card sized computer with immense possibilities. 
 
-This guide will show you how to connect your Raspberry Pi the Particle cloud and how to run software that interacts with real world through the pins on it.
+This guide will show you how to connect your Raspberry Pi to the Particle cloud and how to run software that interacts with real world through the pins on it.
 {{/if}}
 
 The guide is broken down into three parts:
