@@ -63,8 +63,8 @@ under a Creative Commons license. Visit [Pinout.xyz](http://pinout.xyz/) for an 
 | 4 | | Digital IO
 | 5 | | Digital IO
 | 6 | | Digital IO
-| 7 | CE1 | SPI chip enable 1, digital IO
-| 8 | CE0 | SPI chip enable 0, digital IO
+| 7 | CE1 | SPI chip enable 1, digital IO <sup>[2]</sup>
+| 8 | CE0 | SPI chip enable 0, digital IO <sup>[2]</sup>
 | 9 | | Digital IO
 | 10 | | Digital IO
 | 11 | | Digital IO
@@ -75,9 +75,9 @@ under a Creative Commons license. Visit [Pinout.xyz](http://pinout.xyz/) for an 
 | 16 | | Digital IO
 | 17 | | Digital IO
 | 18 | PWM 0 | PWM-capable digital IO
-| 19 | MISO | SPI master-in slave-out
-| 20 | MOSI | SPI master-out slave-in
-| 21 | SCK | SPI clock
+| 19 | MISO | SPI master-in slave-out <sup>[2]</sup>
+| 20 | MOSI | SPI master-out slave-in <sup>[2]</sup>
+| 21 | SCK | SPI clock <sup>[2]</sup>
 | 22 | | Digital IO
 | 23 | | Digital IO
 | 24 | | Digital IO
@@ -89,3 +89,4 @@ under a Creative Commons license. Visit [Pinout.xyz](http://pinout.xyz/) for an 
 
 <sup>[1]</sup>: Disabled by default on the Raspberry Pi 3. Must be enabled by adding `enable_uart=1` to `/boot/config.txt`
 
+<sup>[2]</sup>: Disabled by default on the Raspberry Pi 3. Must be enabled by adding `dtparam=spi=on` to `/boot/config.txt`
