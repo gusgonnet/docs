@@ -502,8 +502,12 @@ void loop() {
 }
 ```
 
-While this function will disconnect from the Cloud, it will keep the connection to the {{#unless electron}}Wi-Fi network. If you would like to completely deactivate the Wi-Fi module, use [`WiFi.off()`](#off-).{{/unless}}{{#if electron}}Cellular network. If you would like to completely deactivate the Cellular module, use [`Cellular.off()`](#off-).{{/if}}
-
+{{#if has-wifi}}
+While this function will disconnect from the Cloud, it will keep the connection to the Wi-Fi network. If you would like to completely deactivate the Wi-Fi module, use [`WiFi.off()`](#off-).
+{{/if}}
+{{#if has-cellular}}
+While this function will disconnect from the Cloud, it will keep the connection to the Cellular network. If you would like to completely deactivate the Cellular module, use [`Cellular.off()`](#off-).
+{{/if}}
 
 **NOTE:* When the device is disconnected, many features are not possible, including over-the-air updates, reading Particle.variables, and calling Particle.functions.
 
@@ -2278,12 +2282,11 @@ The PWM frequency must be the same for pins in the same timer group.
 - On the P1, the timer groups are D0/D1, D2/D3/A4/A5/P1S0/P1S1, WKP, RX/TX.
 - On the Electron, the timer groups are D0/D1/C4/C5, D2/D3/A4/A5/B2/B3, WKP, RX/TX, B0/B1.
 
-**NOTE:** When used with PWM capable pins, the `analogWrite()` function sets up these pins as PWM only.  {{#unless core}}This function operates differently when used with the [`Analog Output (DAC)`](#analog-output-dac-) pins.{{/unless}}
+**NOTE:** When used with PWM capable pins, the `analogWrite()` function sets up these pins as PWM only.  {{#if has-dac}}This function operates differently when used with the [`Analog Output (DAC)`](#analog-output-dac-) pins.{{/if}}
 
-{{#unless core}}
+{{#if has-dac}}
 ### analogWriteResolution() (PWM and DAC)
-{{/unless}}
-{{#if core}}
+{{else}}
 ### analogWriteResolution() (PWM)
 {{/if}}
 
@@ -2305,9 +2308,9 @@ analogWriteResolution(D1, 12); // sets analogWrite resolution to 12 bits
 analogWrite(D1, 3000, 1000); // 3000/4095 = ~73% duty cycle at 1kHz
 ```
 
-{{#unless core}}
+{{#if has-dac}}
 **NOTE:** DAC pins `DAC1` (`A6`) and `DAC2` (`A3`) support only either 8-bit or 12-bit (default) resolutions.
-{{/unless}}
+{{/if}}
 
 **NOTE:** The resolution also affects maximum frequency that can be used with `analogWrite()`. The maximum frequency allowed with current resolution can be checked by calling `analogWriteMaxFrequency()`.
 
@@ -2329,7 +2332,7 @@ int maxFreq = analogWriteMaxFrequency(D1);
 analogWrite(D1, 3000, maxFreq / 2); // 3000/4095 = ~73% duty cycle
 ```
 
-{{#unless core}}
+{{#if has-dac}}
 ### Analog Output (DAC)
 
 The Photon and Electron support true analog output on pins DAC (`DAC1` or `A6` in code) and A3 (`DAC2` or `A3` in code). Using `analogWrite(pin, value)`
@@ -2346,8 +2349,9 @@ pinMode(DAC1, OUTPUT);
 analogWrite(DAC1, 1024);
 // sets DAC pin to an output voltage of 1024/4095 * 3.3V = 0.825V.
 ```
-{{/unless}}
+{{/if}}
 
+{{#if has-adc}}
 ### analogRead() (ADC)
 
 Reads the value from the specified analog pin. The device has 8 channels (A0 to A7) with a 12-bit resolution. This means that it will map input voltages between 0 and 3.3 volts into integer values between 0 and 4095. This yields a resolution between readings of: 3.3 volts / 4096 units or, 0.0008 volts (0.8 mV) per unit.
@@ -2411,6 +2415,7 @@ On the Core, this parameter can be one of the following values:
  * ADC_SampleTime_112Cycles: Sample time equal to 112 cycles
  * ADC_SampleTime_144Cycles: Sample time equal to 144 cycles
  * ADC_SampleTime_480Cycles: Sample time equal to 480 cycles
+{{/if}}
 
 ## Low Level Input/Output
 
@@ -2981,7 +2986,11 @@ by the system firmware.
 
 Used for communication between the device and a computer or other devices. The device has {{#if electron}}four{{else}}two{{/if}} serial channels:
 
+{{#unless raspberry-pi}}
 `Serial:` This channel communicates through the USB port and when connected to a computer, will show up as a virtual COM port.
+{{else}}
+`Serial:` This channel communicates between the terminal and the firmware running. It uses standard input and standard output.
+{{/unless}}
 
 ```C++
 // EXAMPLE USAGE
@@ -3494,14 +3503,13 @@ Serial1.halfduplex(true);
 `halfduplex()` returns nothing
 
 
-
 SPI
 ----
 This library allows you to communicate with SPI devices, with the {{device}} as the master device.
 
-{{#unless core}}
+{{#if has-spi-slave}}
 _Since 0.5.0_ the {{device}} can function as a slave.
-{{/unless}}
+{{/if}}
 
 {{#if core}}
 ![SPI](/assets/images/core-pin-spi.jpg)
@@ -3514,14 +3522,14 @@ be used via the `SPI` object, are mapped as follows:
 * `MISO` => `A4`
 * `MOSI` => `A5`
 
-{{#unless core}}
+{{#if has-multiple-spi}}
 There is a second hardware SPI interface available, which can
 be used via the `SPI1` object. This second port is mapped as follows:
 * `SS` => `D5` (default)
 * `SCK` => `D4`
 * `MISO` => `D3`
 * `MOSI` => `D2`
-{{/unless}}
+{{/if}}
 
 {{#if electron}}
 Additionally on the Electron, there is an alternate pin location for the second SPI interface, which can
@@ -3532,13 +3540,13 @@ be used via the `SPI2` object. This alternate location is mapped as follows:
 * `MOSI` => `C1`
 {{/if}}
 
-{{#unless core}}
+{{#if has-multiple-spi}}
 **Note**: Because there are multiple SPI peripherals available, be sure to use the same `SPI`,`SPI1`{{#if electron}},`SPI2`{{/if}} object with all associated functions. I.e.,
 
 Do **NOT** use **SPI**.begin() with **SPI1**.transfer();
 
 **Do** use **SPI**.begin() with **SPI**.transfer();
-{{/unless}}
+{{/if}}
 
 ### begin()
 
@@ -3549,38 +3557,36 @@ Initializes the SPI bus by setting SCK, MOSI, and a user-specified slave-select 
 ```C++
 // SYNTAX
 SPI.begin(ss);
-{{#unless core}}
+{{#if has-multiple-spi}}
 SPI1.begin(ss);
-{{/unless}}
 {{#if electron}}
 SPI2.begin(ss);
+{{/if}}
 {{/if}}
 ```
 
 Where, the parameter `ss` is the `SPI` device slave-select pin to initialize.  If no pin is specified, the default pin is `SS (A2)`.
-{{#unless core}}
+{{#if has-multiple-spi}}
 For `SPI1`, the default `ss` pin is `SS (D5)`.
-{{/unless}}
 {{#if electron}}
 For `SPI2`, the default `ss` pin is also `SS (D5)`.
 {{/if}}
 
-{{#unless core}}
 ```C++
 // Example using SPI1, with D5 as the SS pin:
 SPI1.begin();
 // or
 SPI1.begin(D5);
 ```
-{{/unless}}
 {{#if electron}}
 ```C++
 // Example using SPI2, with C0 as the SS pin:
 SPI2.begin(C0);
 ```
 {{/if}}
+{{/if}}
 
-{{#unless core}}
+{{#if has-spi-slave}}
 
 ### begin(SPI_Mode, uint16_t)
 
@@ -3604,7 +3610,7 @@ SPI1.begin(SPI_MODE_SLAVE, D5);
 SPI2.begin(SPI_MODE_SLAVE, C0);
 ```
 
-{{/unless}}
+{{/if}}
 
 ### end()
 
@@ -3613,11 +3619,11 @@ Disables the SPI bus (leaving pin modes unchanged).
 ```C++
 // SYNTAX
 SPI.end();
-{{#unless core}}
+{{#if has-multiple-spi}}
 SPI1.end();
-{{/unless}}
 {{#if electron}}
 SPI2.end();
+{{/if}}
 {{/if}}
 ```
 
@@ -3628,11 +3634,11 @@ Sets the order of the bits shifted out of and into the SPI bus, either LSBFIRST 
 ```C++
 // SYNTAX
 SPI.setBitOrder(order);
-{{#unless core}}
+{{#if has-multiple-spi}}
 SPI1.setBitOrder(order);
-{{/unless}}
 {{#if electron}}
 SPI2.setBitOrder(order);
+{{/if}}
 {{/if}}
 ```
 
@@ -3648,13 +3654,13 @@ as a value plus a multiplier.
 // SYNTAX
 SPI.setClockSpeed(value, scale);
 SPI.setClockSpeed(frequency);
-{{#unless core}}
+{{#if has-multiple-spi}}
 SPI1.setClockSpeed(value, scale);
 SPI1.setClockSpeed(frequency);
-{{/unless}}
 {{#if electron}}
 SPI2.setClockSpeed(value, scale);
 SPI2.setClockSpeed(frequency);
+{{/if}}
 {{/if}}
 ```
 
@@ -3672,6 +3678,10 @@ than the one specified.
 This method can make writing portable code easier, since it specifies the clock speed
 absolutely, giving comparable results across devices. In contrast, specifying
 the clock speed using dividers is typically not portable since is dependent upon the system clock speed.
+
+{{#if raspberry-pi}}
+On the Raspberry Pi, the default SPI clock is 4 MHz.
+{{/if}}
 
 ### setClockDividerReference
 
@@ -3697,10 +3707,19 @@ SPI.setClockDividerReference(SPI_CLK_ARDUINO);
 SPI.setClockDivider(SPI_CLK_DIV4);
 ```
 
-The default clock divider reference is the system clock.  {{#if core}}On the Core, this is 72 MHz.{{/if}} {{#unless core}}On the Photon and Electron, the system clock speeds are:
+The default clock divider reference is the system clock.
+{{#if core}}
+On the Core, this is 72 MHz.
+{{else}}
+{{#if raspberry-pi}}
+On the Raspberry Pi, this is 64 MHz.
+{{else}}
+On the Photon and Electron, the system clock speeds are:
 - SPI - 60 MHz
 - SPI1 - 30 MHz
-{{/unless}}
+{{/if}}
+{{/if}}
+
 
 ### setClockDivider()
 
@@ -3709,11 +3728,11 @@ Sets the SPI clock divider relative to the selected clock reference. The availab
 ```C++
 // SYNTAX
 SPI.setClockDivider(divider);
-{{#unless core}}
+{{#if has-multiple-spi}}
 SPI1.setClockDivider(divider);
-{{/unless}}
 {{#if electron}}
 SPI2.setClockDivider(divider);
+{{/if}}
 {{/if}}
 ```
 Where the parameter, `divider` can be:
@@ -3734,11 +3753,11 @@ Sets the SPI data mode: that is, clock polarity and phase. See the [Wikipedia ar
 ```C++
 // SYNTAX
 SPI.setDataMode(mode);
-{{#unless core}}
+{{#if has-multiple-spi}}
 SPI1.setDataMode(mode);
-{{/unless}}
 {{#if electron}}
 SPI2.setDataMode(mode);
+{{/if}}
 {{/if}}
 ```
 Where the parameter, `mode` can be:
@@ -3755,11 +3774,11 @@ Transfers one byte over the SPI bus, both sending and receiving.
 ```C++
 // SYNTAX
 SPI.transfer(val);
-{{#unless core}}
+{{#if has-multiple-spi}}
 SPI1.transfer(val);
-{{/unless}}
 {{#if electron}}
 SPI2.transfer(val);
+{{/if}}
 {{/if}}
 ```
 Where the parameter `val`, can is the byte to send out over the SPI bus.
@@ -3869,6 +3888,8 @@ SPI.available();
 Returns the number of bytes available.
 
 {{/unless}}
+
+{{#if has-i2c}}
 
 Wire (I2C)
 ----
@@ -4194,7 +4215,9 @@ void loop()
 }
 ```
 
-{{#unless core}}
+{{/if}} {{!-- has-i2c --}}
+
+{{#if has-can}}
 
 ## CAN (CANbus)
 
@@ -4458,7 +4481,8 @@ This value is only updated when attempting to transmit messages.
 The two most common causes of error are: being alone on the bus (such as when using a CAN shield not connected to anything) or using the wrong baud rate. Attempting to transmit in those situations will result in `CAN_BUS_OFF`.
 
 Errors heal automatically when properly communicating with other microcontrollers on the CAN bus.
-{{/unless}}
+
+{{/if}} {{!-- has-can --}}
 
 ## IPAddress
 
@@ -5350,6 +5374,7 @@ servo.setTrim(30);
 servo.setTrim(0);
 ```
 
+{{#if has-rgb}}
 
 ## RGB
 
@@ -5491,6 +5516,7 @@ class ExternalRGB {
 ExternalRGB myRGB(D0, D1, D2);
 ```
 
+{{/if}} {{!-- has-rgb --}}
 
 ## Time
 
@@ -5970,6 +5996,8 @@ void loop()
 }
 ```
 
+{{#if has-interrupts}}
+
 ## Interrupts
 
 Interrupts are a way to write code that is run when an external event occurs.
@@ -6116,6 +6144,8 @@ noInterrupts();
 ```
 
 `noInterrupts()` neither accepts a parameter nor returns anything.
+
+{{/if}} {{!-- has-interrupts --}}
 
 ## Software Timers
 
@@ -6806,7 +6836,7 @@ when data is written using `put()` or `write()` and both pages are full. So call
 `performPendingErase()` is optional and provided to avoid the uncertainty of a potential processor
 pause any time `put()` or `write()` is called.
 
-{{#unless core}}
+{{#if has-backup-ram}}
 ## Backup RAM (SRAM)
 
 The STM32F2xx features 4KB of backup RAM. Unlike the regular RAM memory, the backup
@@ -6962,7 +6992,7 @@ keeping the `retained` variables in their own separate block. In this way it's e
 when new `retained` variables are added to the end of the list, or when they are rearranged.
 
 
-{{/unless}}
+{{/if}} {{!-- has-backup-ram --}}
 
 ## Macros
 

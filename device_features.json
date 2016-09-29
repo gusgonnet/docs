@@ -1,17 +1,44 @@
 {
   "Core": [
     "wifi",
-    "embedded"
+    "embedded",
+	"adc",
+	"spi",
+	"i2c",
+	"rgb",
+	"interrupts"
   ],
   "Photon": [
     "wifi",
-    "embedded"
+    "embedded",
+	"dac",
+	"adc",
+	"spi",
+	"spi-slave",
+	"multiple-spi",
+	"i2c",
+	"can",
+	"rgb",
+	"interrupts",
+	"backup-ram"
   ],
   "Electron": [
     "cellular",
-    "embedded"
+    "embedded",
+	"dac",
+	"adc",
+	"spi",
+	"spi-slave",
+	"multiple-spi",
+	"i2c",
+	"can",
+	"rgb",
+	"interrupts",
+	"backup-ram"
   ],
   "Raspberry Pi": [
-    "linux"
+    "linux",
+	"spi",
+	"multiple-spi"
   ]
 }
