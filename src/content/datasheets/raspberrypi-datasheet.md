@@ -65,19 +65,19 @@ under a Creative Commons license. Visit [Pinout.xyz](http://pinout.xyz/) for an 
 | 6 | | Digital IO
 | 7 | CE1 | SPI chip enable 1, digital IO <sup>[2]</sup>
 | 8 | CE0 | SPI chip enable 0, digital IO <sup>[2]</sup>
-| 9 | | Digital IO
-| 10 | | Digital IO
-| 11 | | Digital IO
-| 12 | | Digital IO
-| 13 | | Digital IO
+| 9 | MISO | SPI master-in slave-out <sup>[2]</sup>
+| 10 | MOSI | SPI master-out slave-in <sup>[2]</sup>
+| 11 | SCK | SPI clock <sup>[2]</sup>
+| 12 | | PWM-capable digital IO
+| 13 | | PWM-capable digital IO
 | 14 | TX | UART hardware serial transmit <sup>[1]</sup>
 | 15 | RX | UART hardware serial receive <sup>[1]</sup>
 | 16 | | Digital IO
 | 17 | | Digital IO
-| 18 | PWM 0 | PWM-capable digital IO
-| 19 | MISO | SPI master-in slave-out <sup>[2]</sup>
-| 20 | MOSI | SPI master-out slave-in <sup>[2]</sup>
-| 21 | SCK | SPI clock <sup>[2]</sup>
+| 18 | | PWM-capable digital IO
+| 19 | | PWM-capable digital IO
+| 20 | | Digital IO
+| 21 | | Digital IO
 | 22 | | Digital IO
 | 23 | | Digital IO
 | 24 | | Digital IO
