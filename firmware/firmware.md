@@ -2294,7 +2294,7 @@ Sets or retrieves the resolution of `analogWrite()` function of a particular pin
 `analogWriteResolution()` takes one or two arguments:
 
 - `pin`: the number of the pin whose resolution you wish to set or retrieve
-- `resolution`: (optional) resolution in bits. The value can range from 2 to 31 bits. If the resolution is not supported, it will not be applied. 
+- `resolution`: (optional) resolution in bits. The value can range from 2 to 31 bits. If the resolution is not supported, it will not be applied.
 
 `analogWriteResolution()` returns currently set resolution.
 
@@ -10256,9 +10256,13 @@ However, there might be instances where the preprocessor causes issues in your c
 
 So when you see the `ABC does not name a type` error, yet you know the type is defined, consider disabling the preprocessor using `#pragma SPARK_NO_PREPROCESSOR` at the top of your code.
 
-#### firmware-release-wrapper
-
 ## Firmware Release
+
+### Process notes
+
+To be added
+
+#### release-notes-wrapper
 
 ### Release notes
 
@@ -10269,7 +10273,7 @@ So when you see the `ABC does not name a type` error, yet you know the type is d
 
 ---Debugging introduction---
 
-### Particle CLI (easy method)
+#### Particle CLI (easy method)
 
 ##### @VER@0.5.3if
 This is for 0.5.3 ONLY
@@ -10304,7 +10308,7 @@ particle update
 particle flash --usb tinker
 ```
 
-### The OTA method using Particle CLI
+#### The OTA method using Particle CLI
 
 For devices already online and connected to the cloud, the system firmware can be updated OTA using these commands:
 
@@ -10342,7 +10346,7 @@ particle flash YOUR_DEVICE_NAME system-part2-0.5.3-electron.bin
 particle flash YOUR_DEVICE_NAME tinker (optional)
 ```
 
-### The local method over USB using Particle CLI
+#### The local method over USB using Particle CLI
 
 This requires CLI version 1.17.0 or newer. You can check with `particle --version`.
 
@@ -10379,7 +10383,7 @@ particle flash --usb system-part2-0.5.3-electron.bin
 particle flash --usb tinker (optional)
 ```
 
-### The local DFU-UTIL method
+#### The local DFU-UTIL method
 can be applied to offline devices locally over USB using `dfu-util`
 - Put the device in [DFU mode](http://docs.particle.io/photon/modes/#selecting-various-modes-dfu-mode-device-firmware-upgrade) (flashing yellow LED)
 - open a terminal window, change to the directory where you downloaded the files above, and run these commands:
@@ -10414,7 +10418,7 @@ dfu-util -d 2b04:d00a -a 0 -s 0x8040000 -D system-part2-0.5.3-electron.bin
 
 ---
 
-### Debugging for Electron
+#### Debugging for Electron
 
 ##### Instructions on using the Tinker USB Debugging app [are here](https://docs.google.com/document/d/1NdYxPPk_i_mM2wM9oSbSZB1ElDlHA_x-IHY-UC7w62M/edit?usp=sharing)
 This is useful for simply capturing the Electron's connection process.
@@ -10424,4 +10428,4 @@ This is useful for simply capturing the Electron's connection process.
 ##### Instructions on using the Electron Troubleshooting app [are here](https://docs.google.com/document/d/1U_Wzy2SPRC3hZnKtw8d6QN2Tm8Q7QwtEbSUAeTkO3bk/edit?usp=sharing)
 This is useful for interacting with the Electron's connection process.
 
-#### firmware-release-wrapper
+#### release-notes-wrapper
